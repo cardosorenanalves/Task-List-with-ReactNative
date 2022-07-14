@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import trashIcon from '../assets/icons/trash/trash.png' 
-
+import Xicon from '../assets/icons/X.png'
+import PenIcon from "../assets/icons/Pen.png";
 export interface Task {
     id: number;
     title: string;
@@ -83,13 +84,42 @@ return(
     </TouchableOpacity>
   </View>
 
-  <TouchableOpacity
-    testID={`trash-${index}`}
-    style={{ paddingHorizontal: 24 }}
-    onPress={() => removeTask(item.id)}
-  >
-    <Image source={trashIcon} />
-  </TouchableOpacity>
+  
+      <View
+      style={styles.iconsContainer}
+      >
+        {
+        isEdit == true ? 
+           <TouchableOpacity
+           onPress={handleCancelEditing}
+          
+         >
+         <Image source={Xicon} />
+         </TouchableOpacity>
+         :   
+         <TouchableOpacity
+         onPress={handleStartEditing}
+        
+       >
+       <Image source={PenIcon} />
+       </TouchableOpacity>
+       }
+        
+
+      <View
+      style={styles.iconDivider}
+      />
+
+       
+        <TouchableOpacity
+            testID={`trash-${index}`}
+            onPress={() => removeTask(item.id)}
+          >
+
+          <Image source={trashIcon}  style={{ opacity: isEdit ? 0.2 : 1 }}/>
+        </TouchableOpacity>
+       </View>
+      
   </>
 )
 }
@@ -131,5 +161,17 @@ const styles = StyleSheet.create({
       color: '#1DB863',
       textDecorationLine: 'line-through',
       fontFamily: 'Inter-Medium'
+    },
+    iconsContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingLeft: 12,
+      paddingRight: 24,
+    },
+    iconDivider: {
+      width: 1,
+      height: 24, 
+      backgroundColor: '#c4c4c4', 
+      marginHorizontal: 15,
     }
   })
